@@ -1,0 +1,54 @@
+import 'dart:math';
+class Player {
+  int playerHp = 100;
+  bool isAlive() {
+    return playerHp > 0;
+  }
+  void damageTaken(int damage) {
+    playerHp -= damage;
+  }
+}
+class Enemy {
+  int enemyHp = 100;
+  bool isAlive() {
+    return enemyHp > 0;
+  }
+  void damageTaken(int damage) {
+    enemyHp -= damage;
+  }
+}
+class GameState {
+  Player sebastian = Player();
+  Enemy fatih = Enemy();
+  bool gameEnded = false;
+  void startBattle(List<int> actions) {
+    for (int action in actions) {
+      if (action == 1) {
+        fatih.damageTaken(10);
+      } else {
+        sebastian.damageTaken(10);
+      }
+    }
+    if (!sebastian.isAlive()) {
+      print("Verloren");
+      gameEnded = true;
+    }
+    if (!fatih.isAlive()) {
+      print("Gewonnen");
+      gameEnded = true;
+    }
+    if (sebastian.isAlive() && fatih.isAlive()) {
+      print("Beide kamen mit dem Leben gerade noch so davon.");
+      gameEnded = true;
+    }
+  }
+}
+void main() {
+  Random random = Random();
+  List<int> baem = [random.nextInt(2)];
+  GameState gameState = GameState();
+  gameState.startBattle(baem);
+  if (gameState.gameEnded) {
+    print("Das Spiel ist beendet. Starte ein neues Spiel.");
+  }
+}
